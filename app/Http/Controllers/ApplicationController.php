@@ -27,9 +27,7 @@ class ApplicationController extends Controller
      */
     public function create()
     {
-        $inputs = Input::only(['title']);
-        $app = new App\Application($inputs);
-        $app->save();
+        return abort(501);
     }
 
     /**
@@ -40,7 +38,9 @@ class ApplicationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $inputs = $request->only('title');
+        $app = new \App\Application($inputs);
+        $app->save();
     }
 
     /**
@@ -51,7 +51,8 @@ class ApplicationController extends Controller
      */
     public function show($id)
     {
-        //
+        $app = \App\Application::with(['versions'])->find($id);
+        return response()->json($app);
     }
 
     /**
@@ -62,7 +63,7 @@ class ApplicationController extends Controller
      */
     public function edit($id)
     {
-        //
+        return abort(501);
     }
 
     /**
@@ -74,7 +75,9 @@ class ApplicationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $app = \App\Application::find($id);
+        $app->title = $request->input('title');
+        $app->update();
     }
 
     /**
@@ -85,6 +88,7 @@ class ApplicationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $app = \App\Application::find($id);
+        $app->delete();
     }
 }

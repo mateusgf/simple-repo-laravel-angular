@@ -1,0 +1,11 @@
+php artisan make:controller ApplicationController
+
+php artisan make:model Application --migration
+
+php artisan make:model ApplicationVersion --migration
+
+
+
+$app = new App\Application(['title' => 'MyShop']);
+$app->save();
+$app->versions()->save(['title' => 'v1.0']);

@@ -2,13 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\ApplicationService;
 use Illuminate\Http\Request;
+use App\Repositories\ApplicationRepository;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 class ApplicationController extends Controller
 {
+
+    /**
+    * @var $applicationRepository;
+    **/
+    private $applicationRepository;
+
+
+    public function __construct(ApplicationRepository $applicationRepository)
+    {
+        $this->applicationRepository = $applicationRepository;
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -16,19 +31,10 @@ class ApplicationController extends Controller
      */
     public function index()
     {
-        $apps = \App\Application::with(['versions'])->get();
+        $apps = $this->applicationRepository->allWithVersions();
         return response()->json($apps);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        return abort(501);
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -36,11 +42,10 @@ class ApplicationController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(Request $request, ApplicationService $applicationService)
     {
-        $inputs = $request->only('title');
-        $app = new \App\Application($inputs);
-        $app->save();
+        $app = $applicationService->create($request->only('title'));
+        return response()->json($app);
     }
 
     /**
@@ -49,21 +54,10 @@ class ApplicationController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show($id)
+    public function show(ApplicationService $applicationService, $id)
     {
-        $app = \App\Application::with(['versions'])->find($id);
+        $app = $applicationService->show($id);
         return response()->json($app);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        return abort(501);
     }
 
     /**
@@ -73,11 +67,10 @@ class ApplicationController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, ApplicationService $applicationService, $id)
     {
-        $app = \App\Application::find($id);
-        $app->title = $request->input('title');
-        $app->update();
+        $app = $applicationService->update($id, $request->only('title'));
+        return response()->json($app);
     }
 
     /**
@@ -86,9 +79,8 @@ class ApplicationController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(ApplicationService $applicationService, $id)
     {
-        $app = \App\Application::find($id);
-        $app->delete();
+        $applicationService->delete($id);
     }
 }

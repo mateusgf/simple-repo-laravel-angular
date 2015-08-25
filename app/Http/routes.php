@@ -15,4 +15,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('apps', 'ApplicationController');
+Route::resource('apps', 'ApplicationController', ['except' => ['create', 'edit']]);

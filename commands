@@ -5,6 +5,8 @@ php artisan make:model Application --migration
 php artisan make:model ApplicationVersion --migration
 
 
+composer require lucadegasperi/oauth2-server-laravel
+
 php artisan vendor:publish
 
 php artisan migrate

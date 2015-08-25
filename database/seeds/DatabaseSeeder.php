@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
     {
         Model::unguard();
 
-        // factory(\App\Application::class, 3)->create();
+//        factory(\App\Application::class, 3)->create();
 
         factory(\App\User::class, 1)->create([
             'name' => 'Mateus Gomes',

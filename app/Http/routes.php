@@ -15,4 +15,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('apps', 'ApplicationController', ['except' => ['create', 'edit']]);
+/**
+ * Respond to the incoming access token requests.
+ */
+Route::post('oauth/access_token', function() {
+    return Response::json(Authorizer::issueAccessToken());
+});
+
+/**
+ * Grouped routes on OAuth
+ */
+Route::group(['middleware' => 'oauth'], function() {
+    Route::resource('apps', 'ApplicationController', ['except' => ['create', 'edit']]);
+});

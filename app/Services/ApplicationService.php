@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Validator;
 
 use App\Repositories\ApplicationRepository;
 
@@ -35,7 +36,18 @@ class ApplicationService {
         /**
          * Create with business logic
          */
-        return $this->applicationRepository->create($data);
+
+        $validator = Validator::make($data, [
+            'title' => 'required|max:255',
+        ]);
+
+
+        if ($validator->fails()) {
+            //return $validator->errors(); // errors with fields in the keys
+            return ['success' => 0, 'errors' => $validator->errors()->all()];
+        }
+
+        return ['success' => 1, 'return' => $this->applicationRepository->create($data)];
     }
 
 
@@ -44,7 +56,16 @@ class ApplicationService {
         /**
          * Update with business logic
          */
-        return $this->applicationRepository->update($id, $data);
+
+        $validator = Validator::make($data, [
+            'title' => 'required|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return ['success' => 0, 'errors' => $validator->errors()->all()];
+        }
+
+        return ['success' => 1, 'return' => $this->applicationRepository->update($id, $data)];
     }
 
 

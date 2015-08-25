@@ -8,3 +8,9 @@ php artisan make:model ApplicationVersion --migration
 php artisan vendor:publish
 
 php artisan migrate
+
+
+insert into oauth_clients(id, secret, name, created_at, updated_at) values (1, 'secret', 'client1', NOW(), NOW());
+
+
+php artisan db:seed

@@ -10,6 +10,8 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+use LucaDegasperi\OAuth2Server\Facades\Authorizer;
+
 
 Route::get('/', function () {
     return view('layout');
@@ -18,7 +20,7 @@ Route::get('/', function () {
 /**
  * Respond to the incoming access token requests.
  */
-Route::post('oauth/access_token', function() {
+Route::post('oauth/access_token', function(Request $request) {
     return Response::json(Authorizer::issueAccessToken());
 });
 
@@ -26,5 +28,9 @@ Route::post('oauth/access_token', function() {
  * Grouped routes on OAuth
  */
 Route::group(['middleware' => 'oauth'], function() {
+    Route::get('/teste', function () {
+        return Authorizer::getResourceOwnerId();
+    });
+
     Route::resource('apps', 'ApplicationController', ['except' => ['create', 'edit']]);
 });

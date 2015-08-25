@@ -16,3 +16,11 @@ insert into oauth_clients(id, secret, name, created_at, updated_at) values (1, '
 
 
 php artisan db:seed
+
+
+
+php artisan make:migration create_application_user_table --table=application_user
+
+
+php artisan migrate
+

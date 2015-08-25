@@ -21,4 +21,13 @@ class Application extends Model
     {
         return $this->hasMany('App\ApplicationVersion');
     }
+
+
+    /**
+     * The users that belong to the application.
+     */
+    public function users()
+    {
+        return $this->belongsToMany('App\User');
+    }
 }

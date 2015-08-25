@@ -1,4 +1,19 @@
-<h1>Applications</h1>
-<ul>
-    <li ng-repeat="app in applications">{{ app.title }}</li>
-</ul>
+<div class="row">
+    <div class="col-md-12">
+
+        <h1>Applications</h1>
+
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+
+            <table class="table">
+                <tbody>
+                    <tr ng-repeat="app in applications">
+                        <td><a href="#/apps/{{ app.id }}" title="">{{ app.title }}</a></td>
+                        <td align="right"><a class="btn btn-sm btn-primary" href="#/apps/{{ app.id }}/edit" title=""><i class="glyphicon glyphicon-pencil"></i>&nbsp;Edit</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

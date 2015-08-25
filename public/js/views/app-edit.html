@@ -1,0 +1,32 @@
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="alert alert-success" ng-show="success.valid">
+            {{ success.message }}
+        </div>
+
+
+        <h1>Applications - Edit</h1>
+
+        <form ng-submit="update();" name="applicationEdit" novalidate>
+
+            <div ng-messages="applicationEdit.title.$error" ng-show="applicationEdit.title.$touched">
+                <div class="alert alert-danger" ng-message="minlength">Title is too short.</div>
+                <div class="alert alert-danger" ng-message="maxlength">Title is too long.</div>
+                <div class="alert alert-danger" ng-message="required">Title is required.</div>
+            </div>
+
+            <div class="form-group" ng-class="{ 'has-error': applicationEdit.title.$touched && applicationEdit.title.$invalid }">
+                <label for="title">Title</label>
+                <input type="text" class="form-control" name="title" id="title" ng-model="application.title" value="" ng-minlength="3" ng-maxlength="255" required />
+            </div>
+
+
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit" ng-click="update();">Save</button>
+            </div>
+
+
+        </form>
+    </div>
+</div>

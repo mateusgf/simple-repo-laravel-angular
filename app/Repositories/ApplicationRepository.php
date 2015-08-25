@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\Application;
+use App\User;
+use LucaDegasperi\OAuth2Server\Facades\Authorizer;
 
 class ApplicationRepository
 {
@@ -13,28 +15,42 @@ class ApplicationRepository
 	private $application;
 
 
+    /**
+     * @var $ownerUserId;
+     **/
+    private $ownerUserId;
+
 
 	public function __construct(Application $application)
 	{
 		$this->application = $application;
+        $this->ownerUserId = Authorizer::getResourceOwnerId();
 	}
 
 
     public function allWithVersions()
     {
-        return $this->application->with(['versions'])->get();
+        $user = User::with(['applications', 'applications.versions'])->find($this->ownerUserId);
+
+        return $user->applications;
+
+        //return $this->application->with(['versions'])->get();
     }
 
 
 	public function all()
 	{
-		return $this->application->all();
+        $user = User::find($this->ownerUserId);
+
+        return $user->applications;
 	}
 
 
     public function show($id)
     {
-        $app = $this->application->with(['versions'])->find($id);
+        $user = User::with(['applications', 'applications.versions'])->find($this->ownerUserId);
+
+        $app = $user->applications->find($id);
 
         return $app;
     }
@@ -44,13 +60,19 @@ class ApplicationRepository
     {
         $app = $this->application->create($data);
 
+        $user = User::find($this->ownerUserId);
+
+        $user->applications()->attach($app->id);
+
         return $app;
     }
 
 
     public function update($id, $data)
     {
-        $app = $this->application->find($id);
+        $user = User::find($this->ownerUserId);
+
+        $app = $user->applications->find($id);
         $app->title = $data['title'];
         $app->update();
 
@@ -60,7 +82,14 @@ class ApplicationRepository
 
     public function delete($id)
     {
-        $app = $this->application->find($id);
-        $app->delete();
+        $user = User::find($this->ownerUserId);
+
+        $app = $user->applications->find($id);
+
+        if($app) {
+            $app->delete();
+        } else {
+            throw new \Exception("Resource not found.");
+        }
     }
 }

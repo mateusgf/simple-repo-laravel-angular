@@ -23,7 +23,14 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 
 $factory->define(App\Application::class, function (Faker\Generator $faker) {
     return [
-        'title' => $faker->sentence
+        'title' => $faker->company
+    ];
+});
+
+
+$factory->define(App\ApplicationVersion::class, function (Faker\Generator $faker) {
+    return [
+        'title' => 'v' . $faker->numberBetween(1, 20)
     ];
 });
 

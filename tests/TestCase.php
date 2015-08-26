@@ -16,7 +16,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      */
     public function createApplication()
     {
-        //putenv('DB_DEFAULT=sqlite_testing');
+        putenv('DB_DEFAULT=sqlite_testing');
 
         $app = require __DIR__.'/../bootstrap/app.php';
 

@@ -38,15 +38,15 @@ class FileService {
     }
 
 
-//    public function show($applicationId, $applicationVersionId, $id)
-//    {
-//        /**
-//         * Show with business logic
-//         */
-//        return $this->applicationVersionRepository->show($applicationId, $id);
-//    }
-//
-//
+    public function show($applicationId, $applicationVersionId, $id)
+    {
+        /**
+         * Show with business logic
+         */
+        return $this->fileRepository->show($applicationId, $applicationVersionId, $id);
+    }
+
+
     public function create($applicationId, $applicationVersionId, $data)
     {
         /**
@@ -67,32 +67,14 @@ class FileService {
 
         return ['success' => 1, 'return' => $this->fileRepository->create($applicationId, $applicationVersionId, $data)];
     }
-//
-//
-//    public function update($applicationId, $id, $data)
-//    {
-//        /**
-//         * Update with business logic
-//         */
-//
-//        $validator = Validator::make($data, [
-//            'title' => 'required|max:255',
-//        ]);
-//
-//        if ($validator->fails()) {
-//            return ['success' => 0, 'errors' => $validator->errors()->all()];
-//        }
-//
-//        return ['success' => 1, 'return' => $this->applicationVersionRepository->update($applicationId, $id, $data)];
-//    }
-//
-//
-//    public function delete($applicationId, $id)
-//    {
-//        /**
-//         * Delete with business logic
-//         */
-//        return $this->applicationVersionRepository->delete($applicationId, $id);
-//    }
+
+
+    public function delete($applicationId, $applicationVersionId, $id)
+    {
+        /**
+         * Delete with business logic
+         */
+        return $this->fileRepository->delete($applicationId, $applicationVersionId, $id);
+    }
 
 } 

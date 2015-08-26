@@ -72,18 +72,6 @@ class FileController extends Controller
         return response()->json($file);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  Request  $request
-     * @param  int  $id
-     * @return Response
-     */
-    public function update(Request $request, ApplicationVersionService $applicationVersionService, $applicationId, $id)
-    {
-        $version = $applicationVersionService->update($applicationId, $id, $request->only('title'));
-        return response()->json($version);
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -91,8 +79,8 @@ class FileController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy(ApplicationVersionService $applicationVersionService, $applicationId, $id)
+    public function destroy(FileService $fileService, $applicationId, $applicationVersionId, $id)
     {
-        $applicationVersionService->delete($applicationId, $id);
+        $fileService->delete($applicationId, $applicationVersionId, $id);
     }
 }

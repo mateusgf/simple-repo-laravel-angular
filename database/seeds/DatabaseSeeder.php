@@ -41,13 +41,29 @@ class DatabaseSeeder extends Seeder
             'remember_token' => str_random(10)
         ]);
 
+
         $user = \App\User::find(1);
         $user->applications()->attach([1, 2, 3]);
 
-        factory(\App\Application::class, 3)->create()->each(function($application) {
-            $application->versions()->save(factory(\App\ApplicationVersion::class, 3)->make());
-        });
 
+        factory(\App\Application::class, 3)->create()->each(function($application) {
+
+            factory(\App\ApplicationVersion::class, 2)->create([
+                'title' => 'v' . rand(1, 20),
+                'application_id' => $application->id
+            ])->each(function($version) use ($application){
+                $version->files()->save(
+                    factory(\App\File::class, 1)->create([
+                        'title' => 'file-' . rand(1, 20),
+                        'filename' => 'file.jpg',
+                        'application_id' => $application->id,
+                        'application_version_id' => $version->id,
+                        'mime' => 'image/jpeg'
+                    ])
+                );
+            });
+
+        });
 
 
 

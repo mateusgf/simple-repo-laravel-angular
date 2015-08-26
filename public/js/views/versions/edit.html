@@ -6,24 +6,24 @@
         </div>
 
 
-        <h1>Applications - New</h1>
+        <h1>{{ version.application.title }} - {{ version.title }}</h1>
 
-        <form ng-submit="create('submitApp');" name="applicationNew" >
+        <form ng-submit="update('submitVersion');" name="versionEdit" >
 
-            <div ng-messages="applicationNew.title.$error" ng-show="applicationNew.title.$touched">
+            <div ng-messages="versionEdit.title.$error" ng-show="versionEdit.title.$touched">
                 <div class="alert alert-danger" ng-message="minlength">Title is too short.</div>
                 <div class="alert alert-danger" ng-message="maxlength">Title is too long.</div>
                 <div class="alert alert-danger" ng-message="required">Title is required.</div>
             </div>
 
-            <div class="form-group" ng-class="{ 'has-error': applicationNew.title.$touched && applicationNew.title.$invalid }">
+            <div class="form-group" ng-class="{ 'has-error': versionEdit.title.$touched && versionEdit.title.$invalid }">
                 <label for="title">Title</label>
-                <input type="text" class="form-control" name="title" id="title" ng-model="application.title" value="" ng-minlength="3" ng-maxlength="255" required />
+                <input type="text" class="form-control" name="title" id="title" ng-model="version.title" value="" ng-minlength="1" ng-maxlength="255" required />
             </div>
 
 
             <div class="form-group">
-                <button class="btn btn-primary" type="submit" click-once id="submitApp">Save</button>
+                <button class="btn btn-primary" type="submit" click-once id="submitVersion">Save</button>
             </div>
 
 

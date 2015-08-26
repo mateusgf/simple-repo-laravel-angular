@@ -29,3 +29,18 @@ php artisan migrate:refresh --seed
 
 
 php artisan make:model File --migration
+
+
+
+php artisan make:migration add_mime_to_files_table --table=files
+
+
+git remote add pagoda git@git.pagodabox.io:apps/mateusgomes.git
+git push pagoda master
+
+
+#pagoda:
+psql -h 192.168.0.6 -p 5432 -U yolanda -W gopagoda
+
+#ssh pagoda
+ssh gopagoda@75.126.154.152 -p 3664

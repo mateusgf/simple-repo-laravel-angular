@@ -48,7 +48,7 @@ class FileRepository
 
 	public function all($applicationId, $applicationVersionId)
 	{
-        $user = User::find($this->ownerUserId);
+        $user = User::with(['applications'])->find($this->ownerUserId);
 
 
         $app = $user->applications->find($applicationId);
@@ -61,72 +61,72 @@ class FileRepository
 	}
 
 
-//    public function show($applicationId, $id)
-//    {
-//        $user = User::with(['applications', 'applications.versions'])->find($this->ownerUserId);
-//
-//        $app = $user->applications->find($applicationId);
-//
-//        if ($app) {
-//            return $this->applicationVersion->where('application_id', '=', $app->id)->where('id', $id)->first();
-//        }
-//        return false;
-//    }
-//
-//
-//    public function create($applicationId, $data)
-//    {
-//        $user = User::with(['applications'])->find($this->ownerUserId);
-//        $app = $user->applications->find($applicationId);
-//
-//        /**
-//         * Create new Version
-//         */
-//        $version = $this->applicationVersion->create($data);
-//
-//        /**
-//         * Associate with current application
-//         */
-//        $version->application()->associate($app);
-//        $version->save();
-//
-//
-//        return $version;
-//    }
-//
-//
-//    public function update($applicationId, $id, $data)
-//    {
-//        $user = User::with(['applications'])->find($this->ownerUserId);
-//        $app = $user->applications->find($applicationId);
-//
-//        if ($app) {
-//            $version = $this->applicationVersion->where('application_id', '=', $app->id)->where('id', $id)->first();
-//        }
-//
-//        $version->title = $data['title'];
-//        $version->update();
-//
-//        return $version;
-//    }
-//
-//
-//    public function delete($applicationId, $id)
-//    {
-//        $user = User::with(['applications'])->find($this->ownerUserId);
-//        $app = $user->applications->find($applicationId);
-//
-//        if ($app) {
-//            $version = $this->applicationVersion->where('application_id', '=', $app->id)->where('id', $id)->first();
-//
-//            if($version) {
-//                $version->delete();
-//            } else {
-//                throw new \Exception("Resource not found.");
-//            }
-//
-//        } else {
-//            throw new \Exception("Resource not found.");
-//        }
-//    }
+    public function show($applicationId, $applicationVersionId, $id)
+    {
+        // @TO-DO get file by hash for security
+
+        $version = $this->applicationVersion->where('application_id', '=', $applicationId)->where('id', '=', $applicationVersionId)->first();
+
+
+        if ($version) {
+            return $this->file->where('application_id', '=', $applicationId)->where('application_version_id', '=', $version->id)->where('id', $id)->first();
+        }
+        return false;
+    }
+
+
+    public function create($applicationId, $applicationVersionId, $data)
+    {
+        $user = User::with(['applications'])->find($this->ownerUserId);
+        $app = $user->applications->find($applicationId);
+
+        if (!$app) return false;
+
+        $version = $this->applicationVersion->where('application_id', '=', $app->id)->where('id', '=', $applicationVersionId)->first();
+
+        /**
+         * Create new File
+         */
+        $file = $this->file->create($data);
+
+        /**
+         * Associate with current application
+         */
+        $file->application()->associate($app);
+
+        /**
+         * Associate with current version
+         */
+        $file->version()->associate($version);
+        $file->save();
+
+
+        return $file;
+    }
+
+
+
+    public function delete($applicationId, $applicationVersionId, $id)
+    {
+        $user = User::with(['applications'])->find($this->ownerUserId);
+        $app = $user->applications->find($applicationId);
+
+        if (!$app) return false;
+
+
+        $version = $this->applicationVersion->where('application_id', '=', $app->id)->where('id', '=', $applicationVersionId)->first();
+
+
+        if ($version) {
+            $file = $this->file->where('application_id', '=', $app->id)->where('application_version_id', '=', $version->id)->where('id', $id)->first();
+
+            if ($file) {
+                $file->delete();
+            } else {
+                throw new \Exception("Resource not found.");
+            }
+        } else {
+            throw new \Exception("Resource not found.");
+        }
+    }
 }

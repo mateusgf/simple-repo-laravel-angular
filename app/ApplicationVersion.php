@@ -21,4 +21,12 @@ class ApplicationVersion extends Model
     {
         return $this->belongsTo('App\Application', 'application_id');
     }
+
+    /**
+     * Get the files.
+     */
+    public function files()
+    {
+        return $this->hasMany('App\File', 'application_version_id');
+    }
 }

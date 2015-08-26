@@ -56,9 +56,10 @@ class FileController extends Controller
      */
     public function store(Request $request, FileService $fileService, $applicationId, $applicationVersionId)
     {
-        $file = $fileService->create($applicationId, $applicationVersionId, $request->only('title'));
+        $file = $fileService->create($applicationId, $applicationVersionId, $request->all());
         return response()->json($file);
     }
+
 
     /**
      * Display the specified resource.
@@ -66,24 +67,17 @@ class FileController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show(ApplicationVersionService $applicationVersionService, $applicationId, $id)
+    public function show(FileService $fileService, $applicationId, $applicationVersionId, $id)
     {
-        $version = $applicationVersionService->show($applicationId, $id);
-        return response()->json($version);
+        //$file = $fileService->show($applicationId, $applicationVersionId, $id);
+
+        $fileRow = File::find($id);
+        $file = Storage::disk('local')->get($fileRow->filename);
+
+        return (new Response($file, 200))
+            ->header('Content-Type', $fileRow->mime);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  Request  $request
-     * @param  int  $id
-     * @return Response
-     */
-    public function update(Request $request, ApplicationVersionService $applicationVersionService, $applicationId, $id)
-    {
-        $version = $applicationVersionService->update($applicationId, $id, $request->only('title'));
-        return response()->json($version);
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -91,8 +85,8 @@ class FileController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy(ApplicationVersionService $applicationVersionService, $applicationId, $id)
+    public function destroy(FileService $fileService, $applicationId, $applicationVersionId, $id)
     {
-        $applicationVersionService->delete($applicationId, $id);
+        $fileService->delete($applicationId, $applicationVersionId, $id);
     }
 }

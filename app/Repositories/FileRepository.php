@@ -48,7 +48,7 @@ class FileRepository
 
 	public function all($applicationId, $applicationVersionId)
 	{
-        $user = User::find($this->ownerUserId);
+        $user = User::with(['applications'])->find($this->ownerUserId);
 
 
         $app = $user->applications->find($applicationId);
@@ -74,25 +74,31 @@ class FileRepository
 //    }
 //
 //
-//    public function create($applicationId, $data)
-//    {
-//        $user = User::with(['applications'])->find($this->ownerUserId);
-//        $app = $user->applications->find($applicationId);
-//
-//        /**
-//         * Create new Version
-//         */
-//        $version = $this->applicationVersion->create($data);
-//
-//        /**
-//         * Associate with current application
-//         */
-//        $version->application()->associate($app);
-//        $version->save();
-//
-//
-//        return $version;
-//    }
+    public function create($applicationId, $applicationVersionId, $data)
+    {
+        $user = User::with(['applications'])->find($this->ownerUserId);
+        $app = $user->applications->find($applicationId);
+        $version = $this->applicationVersion->where('application_id', '=', $app->id)->where('id', '=', $applicationVersionId)->first();
+
+        /**
+         * Create new File
+         */
+        $file = $this->file->create($data);
+
+        /**
+         * Associate with current application
+         */
+        $file->application()->associate($app);
+
+        /**
+         * Associate with current version
+         */
+        $file->version()->associate($version);
+        $file->save();
+
+
+        return $file;
+    }
 //
 //
 //    public function update($applicationId, $id, $data)

@@ -56,7 +56,7 @@ class FileController extends Controller
      */
     public function store(Request $request, FileService $fileService, $applicationId, $applicationVersionId)
     {
-        $file = $fileService->create($applicationId, $applicationVersionId, $request->only('title'));
+        $file = $fileService->create($applicationId, $applicationVersionId, $request->only('title', 'file'));
         return response()->json($file);
     }
 
@@ -66,10 +66,10 @@ class FileController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show(ApplicationVersionService $applicationVersionService, $applicationId, $id)
+    public function show(FileService $fileService, $applicationId, $applicationVersionId, $id)
     {
-        $version = $applicationVersionService->show($applicationId, $id);
-        return response()->json($version);
+        $file = $fileService->show($applicationId, $applicationVersionId, $id);
+        return response()->json($file);
     }
 
     /**

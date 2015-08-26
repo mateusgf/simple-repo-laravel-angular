@@ -47,23 +47,26 @@ class FileService {
 //    }
 //
 //
-//    public function create($applicationId, $data)
-//    {
-//        /**
-//         * Create with business logic
-//         */
-//
-//        $validator = Validator::make($data, [
-//            'title' => 'required|max:255',
-//        ]);
-//
-//
-//        if ($validator->fails()) {
-//            return ['success' => 0, 'errors' => $validator->errors()->all()];
-//        }
-//
-//        return ['success' => 1, 'return' => $this->applicationVersionRepository->create($applicationId, $data)];
-//    }
+    public function create($applicationId, $applicationVersionId, $data)
+    {
+        /**
+         * Create with business logic
+         */
+
+        $validator = Validator::make($data, [
+            'title' => 'required|max:255',
+            'file' => 'required',
+        ]);
+
+
+        if ($validator->fails()) {
+            return ['success' => 0, 'errors' => $validator->errors()->all()];
+        }
+
+        $data['filename'] = 'mock';
+
+        return ['success' => 1, 'return' => $this->fileRepository->create($applicationId, $applicationVersionId, $data)];
+    }
 //
 //
 //    public function update($applicationId, $id, $data)

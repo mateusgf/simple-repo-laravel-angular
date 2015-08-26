@@ -79,8 +79,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-messages.js"></script>
 
 
+
     <script src="{!! asset('js/app.js') !!}"></script>
     <script src="{!! asset('js/appControllers.js') !!}"></script>
+
 
 
   </body>

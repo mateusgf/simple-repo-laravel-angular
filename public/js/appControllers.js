@@ -35,6 +35,7 @@ appControllers.controller('LoginController', ['$scope', '$http', '$rootScope', '
         return false;
     }
 
+
 }]);
 
 
@@ -57,6 +58,22 @@ appControllers.controller('ApplicationController', ['$scope', '$http', '$rootSco
     }).error(function(err) {
         $location.path('login');
     });
+
+
+    $scope.destroyApp = function(application) {
+
+        $http.delete('/apps/' + application.id, { headers: { Authorization: 'Bearer ' + $window.sessionStorage.token } }).
+            success(function(data, status, headers, config) {
+                for (index = 0; index < $scope.applications.length; ++index) {
+                    if ($scope.applications[index].id == application.id) {
+                        $scope.applications.splice(index, 1);
+                    }
+                }
+            });
+
+
+        return false;
+    }
 
 
 }]);
@@ -160,4 +177,68 @@ appControllers.controller('ApplicationEditController', ['$scope', '$http', '$roo
         }
 
 
-    }]);
+}]);
+
+
+
+
+
+appControllers.controller('ApplicationNewController', ['$scope', '$http', '$rootScope', '$location', '$routeParams', '$window',
+    function($scope, $http, $rootScope, $location, $routeParams, $window) {
+
+        $scope.error = {
+            valid: false,
+            messages: []
+        };
+
+        $scope.success = {
+            valid: false,
+            message: ""
+        };
+
+        $scope.application = [];
+
+
+        $scope.create = function(idButton) {
+            var reqCreate = {
+                method: 'POST',
+                url: '/apps',
+                headers: {
+                    Authorization: 'Bearer ' + $window.sessionStorage.token
+                },
+                data: { 'title': $scope.application.title }
+            };
+
+
+            $http(reqCreate).success(function(response) {
+                console.log(response);
+
+                if(response.success == 0) {
+                    angular.element('#' + idButton).attr('disabled', false);
+                    $scope.error.valid = true;
+                    $scope.error.messages = response.errors;
+                } else {
+                    $scope.success.valid = true;
+                    $scope.success.message = "Success!";
+
+                    $location.path('apps');
+                }
+
+
+                console.log("ERROR:");
+                console.log($scope.error);
+
+                console.log("SUCCESS:");
+                console.log($scope.success);
+
+
+            }).error(function(err) {
+                $scope.error.valid = true;
+                console.log(err);
+            });
+
+            return false;
+        }
+
+        return false;
+ }]);

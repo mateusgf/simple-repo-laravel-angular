@@ -61,10 +61,10 @@ return [
 
         'mysql' => [
             'driver'    => 'mysql',
-            'host'      => '192.168.0.4',
-            'database'  => 'gopagoda',
-            'username'  => 'roseanna',
-            'password'  => 'Hyg9GIPz',
+            'host'      => 'localhost',
+            'database'  => 'mateus',
+            'username'  => 'root',
+            'password'  => 'mysqlDigital1244515',
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',

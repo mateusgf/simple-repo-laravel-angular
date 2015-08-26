@@ -34,3 +34,13 @@ $factory->define(App\ApplicationVersion::class, function (Faker\Generator $faker
     ];
 });
 
+
+$factory->define(App\File::class, function (Faker\Generator $faker) {
+
+
+    return [
+        'title' => 'file-' . $faker->numberBetween(1, 20),
+        'filename' => 'file-' . $faker->numberBetween(1, 20) . '.zip',
+    ];
+});
+

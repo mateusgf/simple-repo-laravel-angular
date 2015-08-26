@@ -45,10 +45,25 @@ class DatabaseSeeder extends Seeder
         $user->applications()->attach([1, 2, 3]);
 
         factory(\App\Application::class, 3)->create()->each(function($application) {
-            $application->versions()->save(factory(\App\ApplicationVersion::class, 3)->make());
+
+            factory(\App\ApplicationVersion::class, 2)->create([
+                'title' => 'v' . rand(1, 20),
+                'application_id' => $application->id,
+                'created_at' => '0000-00-00 00:00:00',
+                'updated_at' => '0000-00-00 00:00:00',
+            ])->each(function($version) use ($application){
+                $version->files()->save(
+                    factory(\App\File::class, 1)->create([
+                        'title' => 'file-' . rand(1, 20),
+                        'filename' => 'file-' . rand(1, 20) . '.zip',
+                        'application_id' => $application->id,
+                        'application_version_id' => $version->id
+                    ])
+                );
+            });
+
         });
-
-
+        
 
 
         // $this->call(UserTableSeeder::class);

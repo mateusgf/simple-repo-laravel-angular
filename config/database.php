@@ -27,7 +27,7 @@ return [
     */
 
     //'default' => env('DB_CONNECTION', 'pgsql'),
-    'default' => 'pgsql',
+    'default' => 'mysql',
 
     /*
     |--------------------------------------------------------------------------
@@ -59,29 +59,29 @@ return [
             'prefix'   => '',
         ],
 
-//        'mysql' => [
-//            'driver'    => 'mysql',
-//            'host'      => '192.168.0.6:5432',
-//            'database'  => 'gopagoda',
-//            'username'  => 'yolanda',
-//            'password'  => 'G9p3xjt4',
-//            'charset'   => 'utf8',
-//            'collation' => 'utf8_unicode_ci',
-//            'prefix'    => '',
-//            'strict'    => false,
-//        ],
-
         'mysql' => [
             'driver'    => 'mysql',
-            'host'      => env('DB_HOST', 'localhost'),
-            'database'  => env('DB_DATABASE', 'forge'),
-            'username'  => env('DB_USERNAME', 'forge'),
-            'password'  => env('DB_PASSWORD', ''),
+            'host'      => '192.168.0.4',
+            'database'  => 'gopagoda',
+            'username'  => 'roseanna',
+            'password'  => 'Hyg9GIPz',
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
             'strict'    => false,
         ],
+//
+//        'mysql' => [
+//            'driver'    => 'mysql',
+//            'host'      => env('DB_HOST', 'localhost'),
+//            'database'  => env('DB_DATABASE', 'forge'),
+//            'username'  => env('DB_USERNAME', 'forge'),
+//            'password'  => env('DB_PASSWORD', ''),
+//            'charset'   => 'utf8',
+//            'collation' => 'utf8_unicode_ci',
+//            'prefix'    => '',
+//            'strict'    => false,
+//        ],
 //
 //        'pgsql' => [
 //            'driver'   => 'pgsql',

@@ -40,7 +40,8 @@ $factory->define(App\File::class, function (Faker\Generator $faker) {
 
     return [
         'title' => 'file-' . $faker->numberBetween(1, 20),
-        'filename' => 'file-' . $faker->numberBetween(1, 20) . '.zip',
+        'filename' => 'file-' . $faker->numberBetween(1, 20) . '.jpg',
+        'mime' => 'image/jpeg'
     ];
 });
 

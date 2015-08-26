@@ -57,7 +57,8 @@ class DatabaseSeeder extends Seeder
                         'title' => 'file-' . rand(1, 20),
                         'filename' => 'file-' . rand(1, 20) . '.zip',
                         'application_id' => $application->id,
-                        'application_version_id' => $version->id
+                        'application_version_id' => $version->id,
+                        'mime' => 'image/jpeg'
                     ])
                 );
             });

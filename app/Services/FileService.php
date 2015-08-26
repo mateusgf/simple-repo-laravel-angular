@@ -8,6 +8,9 @@ use App\Repositories\ApplicationRepository;
 use App\Repositories\ApplicationVersionRepository;
 use App\Repositories\FileRepository;
 
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+
 class FileService {
 
 
@@ -40,10 +43,16 @@ class FileService {
 
     public function show($applicationId, $applicationVersionId, $id)
     {
+        // @TO-DO get file by hash for security
+
         /**
          * Show with business logic
          */
-        return $this->fileRepository->show($applicationId, $applicationVersionId, $id);
+        //$fileRow = $this->fileRepository->show($applicationId, $applicationVersionId, $id);
+        $fileRow = File::find($id);
+        $file = Storage::disk('local')->get($fileRow->filename);
+
+        return ['file' => $file, 'mime' => $fileRow->mime];
     }
 
 
@@ -54,7 +63,6 @@ class FileService {
          */
 
         $validator = Validator::make($data, [
-            'title' => 'required|max:255',
             'file' => 'required',
         ]);
 
@@ -63,7 +71,16 @@ class FileService {
             return ['success' => 0, 'errors' => $validator->errors()->all()];
         }
 
-        $data['filename'] = 'mock';
+        $extension = $data['file']->getClientOriginalExtension();
+        $fileName = $data['file']->getFilename();
+
+        Storage::disk('local')->put($fileName . '.' . $extension,  File::get($data['file']));
+
+        $data['filename'] = $fileName . '.' . $extension;
+        $data['title'] = $fileName;
+        $data['mime'] = $data['file']->getClientMimeType();
+
+        // @TO-DO: Save file with original name.
 
         return ['success' => 1, 'return' => $this->fileRepository->create($applicationId, $applicationVersionId, $data)];
     }

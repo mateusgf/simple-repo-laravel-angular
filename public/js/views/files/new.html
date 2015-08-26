@@ -1,0 +1,34 @@
+<div class="row">
+    <div class="col-md-12">
+
+        <h1>Send new file - {{ version.application.title }} - {{ version.title }}</h1>
+
+        <form ng-submit="create('submitFile');" ng-controller="FileNewController" name="fileNew">
+
+            <hr />
+
+
+
+            <h4>Select Files</h4>
+                <button class="btn btn-large btn-primary" ngf-select="uploadFiles($files)" multiple
+                         ngf-max-height="1000" ngf-max-size="1MB">
+                    Select Files</button>
+                <br><br>
+                Files:
+                <ul>
+                    <li ng-repeat="f in files" style="font:smaller">{{f.name}} {{f.$error}} {{f.$errorParam}}
+
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{f.progress}}" aria-valuemin="0" aria-valuemax="100" ng-bind="f.progress + '%'" style="width:{{f.progress}}%">
+                                <span class="sr-only">{{f.progress}}% Complete (success)</span>
+                            </div>
+                        </div>
+
+                    </li>
+                </ul>
+            {{errorMsg}}
+
+
+        </form>
+    </div>
+</div>

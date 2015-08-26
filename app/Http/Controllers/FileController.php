@@ -56,9 +56,10 @@ class FileController extends Controller
      */
     public function store(Request $request, FileService $fileService, $applicationId, $applicationVersionId)
     {
-        $file = $fileService->create($applicationId, $applicationVersionId, $request->only('title', 'file'));
+        $file = $fileService->create($applicationId, $applicationVersionId, $request->all());
         return response()->json($file);
     }
+
 
     /**
      * Display the specified resource.
@@ -68,8 +69,13 @@ class FileController extends Controller
      */
     public function show(FileService $fileService, $applicationId, $applicationVersionId, $id)
     {
-        $file = $fileService->show($applicationId, $applicationVersionId, $id);
-        return response()->json($file);
+        //$file = $fileService->show($applicationId, $applicationVersionId, $id);
+
+        $fileRow = File::find($id);
+        $file = Storage::disk('local')->get($fileRow->filename);
+
+        return (new Response($file, 200))
+            ->header('Content-Type', $fileRow->mime);
     }
 
 

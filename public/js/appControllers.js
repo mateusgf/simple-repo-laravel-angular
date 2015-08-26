@@ -265,7 +265,7 @@ appControllers.controller('VersionShowController', ['$scope', '$http', '$rootSco
     function($scope, $http, $rootScope, $location, $routeParams, $window) {
 
         $scope.version = [];
-
+        $scope.tokenDownload = ""
 
         var req = {
             method: 'GET',
@@ -278,6 +278,7 @@ appControllers.controller('VersionShowController', ['$scope', '$http', '$rootSco
         $http(req).success(function(response) {
             console.log(response);
             $scope.version = response;
+            $scope.tokenDownload = $window.sessionStorage.token;
         }).error(function(err) {
             $location.path('login');
         });
@@ -439,4 +440,91 @@ appControllers.controller('VersionEditController', ['$scope', '$http', '$rootSco
         }
 
 
-    }]);
+ }]);
+
+
+
+
+appControllers.controller('FileNewController', ['$scope', '$http', '$rootScope', '$location', '$routeParams', '$window', 'Upload',
+    function($scope, $http, $rootScope, $location, $routeParams, $window, Upload) {
+
+        $scope.error = {
+            valid: false,
+            messages: []
+        };
+
+        $scope.success = {
+            valid: false,
+            message: ""
+        };
+
+        $scope.version = [];
+
+        var req = {
+            method: 'GET',
+            url: '/apps/' + $routeParams.id_app + '/versions/' + $routeParams.id_version,
+            headers: {
+                Authorization: 'Bearer ' + $window.sessionStorage.token
+            }
+        };
+
+        $http(req).success(function(response) {
+            console.log(response);
+            $scope.version = response;
+        }).error(function(err) {
+            $location.path('login');
+        });
+
+
+
+        $scope.$watch('file', function (file) {
+            if (!file.$error) {
+                $scope.upload($scope.file);
+            }
+        });
+
+
+        $scope.uploadFiles = function(files) {
+            $scope.files = files;
+            angular.forEach(files, function(file) {
+                if (file && !file.$error) {
+                    file.upload = Upload.upload({
+                        url: '/apps/' + $routeParams.id_app + '/versions/' +  $routeParams.id_version + '/files',
+                        headers: {
+                            Authorization: 'Bearer ' + $window.sessionStorage.token
+                        },
+                        file: file
+                    });
+
+                    file.upload.then(function (response) {
+                        $timeout(function () {
+                            file.result = response.data;
+                        });
+                    }, function (response) {
+                        if (response.status > 0)
+                            $scope.errorMsg = response.status + ': ' + response.data;
+                    });
+
+                    file.upload.progress(function (evt) {
+                        file.progress = Math.min(100, parseInt(100.0 *
+                        evt.loaded / evt.total));
+                    });
+                }
+            });
+        }
+
+
+
+        return false;
+}]);
+
+
+
+//appControllers.controller('FileDownloadController', ['$scope', '$http', '$rootScope', '$location', '$routeParams', '$window', 'Upload',
+//    function($scope, $http, $rootScope, $location, $routeParams, $window, Upload) {
+//
+//
+//    $scope.$broadcast("downloadFile", url);
+//
+//    return false;
+//}]);

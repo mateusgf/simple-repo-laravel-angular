@@ -63,16 +63,13 @@ class FileRepository
 
     public function show($applicationId, $applicationVersionId, $id)
     {
-        $user = User::with(['applications'])->find($this->ownerUserId);
-        $app = $user->applications->find($applicationId);
+        // @TO-DO get file by hash for security
 
-        if (!$app) return false;
-
-        $version = $this->applicationVersion->where('application_id', '=', $app->id)->where('id', '=', $applicationVersionId)->first();
+        $version = $this->applicationVersion->where('application_id', '=', $applicationId)->where('id', '=', $applicationVersionId)->first();
 
 
-        if ($app && $version) {
-            return $this->file->where('application_id', '=', $app->id)->where('application_version_id', '=', $version->id)->where('id', $id)->first();
+        if ($version) {
+            return $this->file->where('application_id', '=', $applicationId)->where('application_version_id', '=', $version->id)->where('id', $id)->first();
         }
         return false;
     }

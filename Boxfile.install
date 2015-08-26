@@ -15,4 +15,4 @@
 
 web1:
   after_deploy:
-    - "php artisan -n db:seed"
+    #- "php artisan -n db:seed"

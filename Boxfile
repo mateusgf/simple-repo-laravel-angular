@@ -29,10 +29,10 @@ web1:
       - storage/framework/sessions
       - storage/framework/views
   before_deploy:
-    - 'php artisan -n migrate'
+    #- 'php artisan -n migrate'
   after_deploy:
-    - 'php artisan -n cache:clear'
-    - 'rm -f storage/framework/views/*'
+    #- 'php artisan -n cache:clear'
+    #- 'rm -f storage/framework/views/*'
 
 database1:
   name: laravel-db

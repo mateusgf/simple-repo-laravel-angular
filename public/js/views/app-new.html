@@ -8,7 +8,7 @@
 
         <h1>Applications - New</h1>
 
-        <form ng-submit="create();" name="applicationNew" >
+        <form ng-submit="create('submitApp');" name="applicationNew" >
 
             <div ng-messages="applicationNew.title.$error" ng-show="applicationNew.title.$touched">
                 <div class="alert alert-danger" ng-message="minlength">Title is too short.</div>
@@ -23,7 +23,7 @@
 
 
             <div class="form-group">
-                <button class="btn btn-primary" type="submit" click-once id="submitApp" ng-click="create('submitApp');">Save</button>
+                <button class="btn btn-primary" type="submit" click-once id="submitApp">Save</button>
             </div>
 
 

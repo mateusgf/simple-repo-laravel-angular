@@ -45,7 +45,7 @@ class DatabaseSeeder extends Seeder
         $user->applications()->attach([1, 2, 3]);
 
         factory(\App\Application::class, 3)->create()->each(function($application) {
-            $application->versions()->save(factory(\App\ApplicationVersion::class)->make());
+            $application->versions()->save(factory(\App\ApplicationVersion::class, 3)->make());
         });
 
 

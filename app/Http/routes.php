@@ -28,9 +28,8 @@ Route::post('oauth/access_token', function(Request $request) {
  * Grouped routes on OAuth
  */
 Route::group(['middleware' => 'oauth'], function() {
-    Route::get('/teste', function () {
-        return Authorizer::getResourceOwnerId();
-    });
 
     Route::resource('apps', 'ApplicationController', ['except' => ['create', 'edit']]);
+
+    Route::resource('apps.versions', 'ApplicationVersionController');
 });

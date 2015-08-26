@@ -32,4 +32,5 @@ Route::group(['middleware' => 'oauth'], function() {
     Route::resource('apps', 'ApplicationController', ['except' => ['create', 'edit']]);
 
     Route::resource('apps.versions', 'ApplicationVersionController');
+    Route::resource('apps.versions.files', 'FileController');
 });

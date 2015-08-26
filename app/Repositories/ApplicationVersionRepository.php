@@ -52,7 +52,7 @@ class ApplicationVersionRepository
         $app = $user->applications->find($applicationId);
 
         if ($app) {
-            return ApplicationVersion::where('application_id', '=', $app->id)->get();
+            return $this->applicationVersion->where('application_id', '=', $app->id)->get();
         }
 
         return false;
@@ -66,7 +66,7 @@ class ApplicationVersionRepository
         $app = $user->applications->find($applicationId);
 
         if ($app) {
-            return ApplicationVersion::where('application_id', '=', $app->id)->where('id', $id)->first();
+            return $this->applicationVersion->where('application_id', '=', $app->id)->where('id', $id)->first();
         }
         return false;
     }
@@ -99,7 +99,7 @@ class ApplicationVersionRepository
         $app = $user->applications->find($applicationId);
 
         if ($app) {
-            $version = ApplicationVersion::where('application_id', '=', $app->id)->where('id', $id)->first();
+            $version = $this->applicationVersion->where('application_id', '=', $app->id)->where('id', $id)->first();
         }
 
         $version->title = $data['title'];
@@ -115,7 +115,7 @@ class ApplicationVersionRepository
         $app = $user->applications->find($applicationId);
 
         if ($app) {
-            $version = ApplicationVersion::where('application_id', '=', $app->id)->where('id', $id)->first();
+            $version = $this->applicationVersion->where('application_id', '=', $app->id)->where('id', $id)->first();
 
             if($version) {
                 $version->delete();

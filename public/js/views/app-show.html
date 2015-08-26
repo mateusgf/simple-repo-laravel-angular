@@ -1,3 +1,32 @@
+<div class="row">
+    <div class="col-md-12">
 
-<h1>Applications</h1>
-{{ application.title }}
+        <h1>{{ application.title }}</h1>
+        <a href="#/apps/{{ application.id }}/new" class="btn btn-success pull-right" title="">Create new version</a>
+        <br /><br />
+        <div style="clear: both;"></div>
+
+
+        <div class="panel panel-default">
+
+            <table class="table">
+                <thead>
+                <th>Versions</th>
+                <th>&nbsp;</th>
+                </thead>
+                <tbody>
+                <tr ng-repeat="version in application.versions">
+                    <td><a href="#/apps/{{ application.id }}/versions/{{ version.id }}" title="">{{ version.title }}</a></td>
+                    <td></td>
+                    <td align="right">
+                        <a class="btn btn-sm btn-primary" href="#/apps/{{ application.id }}/versions/{{ version.id }}" title=""><i class="glyphicon glyphicon-search"></i>&nbsp;View Files</a>
+                        <a class="btn btn-sm btn-primary" href="#/apps/{{ application.id }}/versions/{{ version.id }}/edit" title=""><i class="glyphicon glyphicon-pencil"></i>&nbsp;Edit</a>
+                        <button class="btn btn-sm btn-danger" type="button" click-once="Removing..." ng-click="destroyVersion(application, version)"><i class="glyphicon glyphicon-trash"></i>&nbsp;Remove</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

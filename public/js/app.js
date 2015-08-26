@@ -27,6 +27,21 @@ mainApp.config(['$routeProvider',
             when('/apps/:id/delete', {
                 controller: 'ApplicationDeleteController'
             }).
+            when('/apps/:id/delete', {
+                controller: 'ApplicationDeleteController'
+            }).
+            when('/apps/:id_app/new', {
+                templateUrl: 'js/views/versions/new.html',
+                controller: 'VersionNewController'
+            }).
+            when('/apps/:id_app/versions/:id', {
+                templateUrl: 'js/views/versions/show.html',
+                controller: 'VersionShowController'
+            }).
+            when('/apps/:id_app/versions/:id/edit', {
+                templateUrl: 'js/views/versions/edit.html',
+                controller: 'VersionEditController'
+            }).
             otherwise({
                 redirectTo: '/'
             });

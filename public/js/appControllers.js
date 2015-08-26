@@ -95,11 +95,27 @@ appControllers.controller('ApplicationShowController', ['$scope', '$http', '$roo
         };
 
         $http(req).success(function(response) {
+            console.log(response);
             $scope.application = response;
         }).error(function(err) {
             $location.path('login');
         });
 
+
+        $scope.destroyVersion = function(application, version) {
+
+            $http.delete('/apps/' + application.id + '/versions/' + version.id, { headers: { Authorization: 'Bearer ' + $window.sessionStorage.token } }).
+                success(function(data, status, headers, config) {
+                    for (index = 0; index < $scope.application.versions.length; ++index) {
+                        if ($scope.application.versions[index].id == version.id) {
+                            $scope.application.versions.splice(index, 1);
+                        }
+                    }
+                });
+
+
+            return false;
+        }
 
     }]);
 
@@ -242,3 +258,185 @@ appControllers.controller('ApplicationNewController', ['$scope', '$http', '$root
 
         return false;
  }]);
+
+
+
+appControllers.controller('VersionShowController', ['$scope', '$http', '$rootScope', '$location', '$routeParams', '$window',
+    function($scope, $http, $rootScope, $location, $routeParams, $window) {
+
+        $scope.version = [];
+
+
+        var req = {
+            method: 'GET',
+            url: '/apps/' + $routeParams.id_app + '/versions/' + $routeParams.id,
+            headers: {
+                Authorization: 'Bearer ' + $window.sessionStorage.token
+            }
+        };
+
+        $http(req).success(function(response) {
+            console.log(response);
+            $scope.version = response;
+        }).error(function(err) {
+            $location.path('login');
+        });
+
+}]);
+
+
+appControllers.controller('VersionNewController', ['$scope', '$http', '$rootScope', '$location', '$routeParams', '$window',
+    function($scope, $http, $rootScope, $location, $routeParams, $window) {
+
+        $scope.error = {
+            valid: false,
+            messages: []
+        };
+
+        $scope.success = {
+            valid: false,
+            message: ""
+        };
+
+        $scope.application = [];
+
+        var req = {
+            method: 'GET',
+            url: '/apps/' + $routeParams.id_app,
+            headers: {
+                Authorization: 'Bearer ' + $window.sessionStorage.token
+            }
+        };
+
+        $http(req).success(function(response) {
+            console.log(response);
+            $scope.application = response;
+        }).error(function(err) {
+            $location.path('login');
+        });
+
+
+
+
+        $scope.create = function(idButton) {
+            var reqCreate = {
+                method: 'POST',
+                url: '/apps/' + $routeParams.id_app + '/versions',
+                headers: {
+                    Authorization: 'Bearer ' + $window.sessionStorage.token
+                },
+                data: { 'title': $scope.version.title }
+            };
+
+
+            $http(reqCreate).success(function(response) {
+                console.log(response);
+
+                if(response.success == 0) {
+                    angular.element('#' + idButton).attr('disabled', false);
+                    $scope.error.valid = true;
+                    $scope.error.messages = response.errors;
+                } else {
+                    $scope.success.valid = true;
+                    $scope.success.message = "Success!";
+
+                    $location.path('apps/' + $routeParams.id_app);
+                }
+
+
+                console.log("ERROR:");
+                console.log($scope.error);
+
+                console.log("SUCCESS:");
+                console.log($scope.success);
+
+
+            }).error(function(err) {
+                $scope.error.valid = true;
+                console.log(err);
+            });
+
+            return false;
+        }
+
+        return false;
+}]);
+
+
+
+
+
+appControllers.controller('VersionEditController', ['$scope', '$http', '$rootScope', '$location', '$routeParams', '$window',
+    function($scope, $http, $rootScope, $location, $routeParams, $window) {
+
+
+        $scope.error = {
+            valid: false,
+            messages: []
+        };
+
+        $scope.success = {
+            valid: false,
+            message: ""
+        };
+
+        $scope.version = [];
+
+
+        var req = {
+            method: 'GET',
+            url: '/apps/' + $routeParams.id_app + '/versions/' + $routeParams.id,
+            headers: {
+                Authorization: 'Bearer ' + $window.sessionStorage.token
+            }
+        };
+
+        $http(req).success(function(response) {
+            $scope.version = response;
+        }).error(function(err) {
+            $location.path('login');
+        });
+
+
+
+        $scope.update = function() {
+            var reqUpdate = {
+                method: 'PUT',
+                url: '/apps/' + $routeParams.id_app + '/versions/' + $routeParams.id,
+                headers: {
+                    Authorization: 'Bearer ' + $window.sessionStorage.token
+                },
+                data: { 'title': $scope.version.title }
+            };
+
+            $http(reqUpdate).success(function(response) {
+                console.log(response);
+
+                if(response.success == 0) {
+                    $scope.error.valid = true;
+                    $scope.error.messages = response.errors;
+                } else {
+                    $scope.success.valid = true;
+                    $scope.success.message = "Success!";
+
+                    $location.path('apps/' + $routeParams.id_app);
+                }
+
+
+                console.log("ERROR:");
+                console.log($scope.error);
+
+                console.log("SUCCESS:");
+                console.log($scope.success);
+
+
+            }).error(function(err) {
+                $scope.error.valid = true;
+                console.log(err);
+            });
+
+            return false;
+        }
+
+
+    }]);

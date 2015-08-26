@@ -107,7 +107,7 @@ class FileRepository
         return $file;
     }
 
-    
+
 
     public function delete($applicationId, $applicationVersionId, $id)
     {
@@ -115,6 +115,7 @@ class FileRepository
         $app = $user->applications->find($applicationId);
 
         if (!$app) return false;
+
 
         $version = $this->applicationVersion->where('application_id', '=', $app->id)->where('id', '=', $applicationVersionId)->first();
 

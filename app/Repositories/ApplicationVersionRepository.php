@@ -61,12 +61,12 @@ class ApplicationVersionRepository
 
     public function show($applicationId, $id)
     {
-        $user = User::with(['applications', 'applications.versions'])->find($this->ownerUserId);
+        $user = User::with(['applications'])->find($this->ownerUserId);
 
         $app = $user->applications->find($applicationId);
 
         if ($app) {
-            return $this->applicationVersion->where('application_id', '=', $app->id)->where('id', $id)->first();
+            return $this->applicationVersion->with(['application', 'files'])->where('application_id', '=', $app->id)->where('id', $id)->first();
         }
         return false;
     }

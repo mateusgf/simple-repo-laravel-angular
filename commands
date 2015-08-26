@@ -33,3 +33,7 @@ php artisan make:model File --migration
 
 
 php artisan make:migration add_mime_to_files_table --table=files
+
+
+git remote add pagoda git@git.pagodabox.io:apps/mateusgomes.git
+git push pagoda master

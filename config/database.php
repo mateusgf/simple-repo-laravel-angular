@@ -26,8 +26,7 @@ return [
     |
     */
 
-    //'default' => env('DB_CONNECTION', 'pgsql'),
-    'default' => 'mysql',
+    'default' => env('DB_CONNECTION', 'mysql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -61,51 +60,27 @@ return [
 
         'mysql' => [
             'driver'    => 'mysql',
-            'host'      => 'localhost',
-            'database'  => 'mateus',
-            'username'  => 'forge',
-            'password'  => 'IStitE7GUfND0mF2vrST',
+            'host'      => env('DB_HOST', 'localhost'),
+            'database'  => env('DB_DATABASE', 'mateus'),
+            'username'  => env('DB_USERNAME', 'forge'),
+            'password'  => env('DB_PASSWORD', 'IStitE7GUfND0mF2vrST'),
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
             'strict'    => false,
         ],
-//
-//        'mysql' => [
-//            'driver'    => 'mysql',
-//            'host'      => env('DB_HOST', 'localhost'),
-//            'database'  => env('DB_DATABASE', 'forge'),
-//            'username'  => env('DB_USERNAME', 'forge'),
-//            'password'  => env('DB_PASSWORD', ''),
-//            'charset'   => 'utf8',
-//            'collation' => 'utf8_unicode_ci',
-//            'prefix'    => '',
-//            'strict'    => false,
-//        ],
-//
-//        'pgsql' => [
-//            'driver'   => 'pgsql',
-//            'host'     => env('DB_HOST', 'localhost'),
-//            'database' => env('DB_DATABASE', 'forge'),
-//            'username' => env('DB_USERNAME', 'forge'),
-//            'password' => env('DB_PASSWORD', ''),
-//            'charset'  => 'utf8',
-//            'prefix'   => '',
-//            'schema'   => 'public',
-//        ],
-
-
 
         'pgsql' => [
             'driver'   => 'pgsql',
-            'host'     => '192.168.0.6:5432',
-            'database' => 'gopagoda',
-            'username' => 'yolanda',
-            'password' => 'G9p3xjt4',
+            'host'     => env('DB_HOST', 'localhost'),
+            'database' => env('DB_DATABASE', 'forge'),
+            'username' => env('DB_USERNAME', 'forge'),
+            'password' => env('DB_PASSWORD', ''),
             'charset'  => 'utf8',
             'prefix'   => '',
             'schema'   => 'public',
         ],
+
 
         'sqlsrv' => [
             'driver'   => 'sqlsrv',

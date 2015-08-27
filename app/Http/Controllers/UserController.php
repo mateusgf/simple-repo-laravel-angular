@@ -2,37 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\ApplicationService;
+use App\Services\UserService;
 use Illuminate\Http\Request;
-use App\Repositories\ApplicationRepository;
+use App\Repositories\UserRepository;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class ApplicationController extends Controller
+class UserController extends Controller
 {
 
     /**
-    * @var $applicationRepository;
+    * @var $userRepository;
     **/
-    private $applicationRepository;
+    private $userRepository;
 
 
-    public function __construct(ApplicationRepository $applicationRepository)
+    public function __construct(UserRepository $userRepository)
     {
-        $this->applicationRepository = $applicationRepository;
-    }
-
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index()
-    {
-        $apps = $this->applicationRepository->allWithVersions();
-        return response()->json($apps);
+        $this->userRepository = $userRepository;
     }
 
 
@@ -42,45 +30,11 @@ class ApplicationController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function store(Request $request, ApplicationService $applicationService)
+    public function store(Request $request, UserService $userService)
     {
-        $app = $applicationService->create($request->only('title'));
-        return response()->json($app);
+        $user = $userService->create($request->only('name', 'email', 'password', 'password_confirmation'));
+
+        return response()->json($user);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function show(ApplicationService $applicationService, $id)
-    {
-        $app = $applicationService->show($id);
-        return response()->json($app);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  Request  $request
-     * @param  int  $id
-     * @return Response
-     */
-    public function update(Request $request, ApplicationService $applicationService, $id)
-    {
-        $app = $applicationService->update($id, $request->only('title'));
-        return response()->json($app);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function destroy(ApplicationService $applicationService, $id)
-    {
-        $applicationService->delete($id);
-    }
 }

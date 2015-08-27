@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'url' => 'http://localhost',
+    'url' => env('APP_URL', 'http://45.55.63.38'),
 
     /*
     |--------------------------------------------------------------------------
@@ -146,7 +146,7 @@ return [
 
         'LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider',
         'LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider',
-
+        'Vinelab\Http\HttpServiceProvider'
     ],
 
     /*

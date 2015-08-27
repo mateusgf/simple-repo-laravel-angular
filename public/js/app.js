@@ -4,6 +4,10 @@ mainApp.config(['$routeProvider',
 
 
         $routeProvider.
+            when('/register', {
+                templateUrl: 'js/views/register.html',
+                controller: 'RegisterController'
+            }).
             when('/login', {
                 templateUrl: 'js/views/login.html',
                 controller: 'LoginController'
@@ -47,7 +51,7 @@ mainApp.config(['$routeProvider',
                 controller: 'FileNewController'
             }).
             otherwise({
-                redirectTo: '/'
+                redirectTo: '/login'
             });
 }]);
 

@@ -17,6 +17,40 @@ Route::get('/', function () {
     return view('layout');
 });
 
+
+
+
+
+
+Route::post('/login', function () {
+
+    $request = [
+        'url' => URL::to('/') . '/oauth/access_token',
+        'params' => [
+            'client_id' => 1,
+            'client_secret' => 'secret',
+            'grant_type' => 'password',
+            'username' => Input::get('username'),
+            'password' => Input::get('password'),
+        ]
+    ];
+
+    $response = HttpClient::post($request);
+
+    $res = json_decode($response->content());
+
+    if(array_key_exists('error', $res)) {
+        $statusCode = 403;
+    } else {
+        $statusCode = 200;
+    }
+
+    return (new Response($response->content(), $statusCode))
+        ->header('Content-Type', 'application/json');
+
+});
+
+
 /**
  * Respond to the incoming access token requests.
  */
@@ -38,6 +72,11 @@ Route::get('apps/{applicationId}/versions/{applicationVersionId}/files/{id}/down
             ->header('Content-Type', $fileRow->mime);
     }
 });
+
+
+Route::post('/register', [
+    'as' => 'register', 'uses' => 'UserController@store'
+]);
 
 Route::group(['middleware' => 'oauth'], function() {
 

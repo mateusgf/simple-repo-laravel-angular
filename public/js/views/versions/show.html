@@ -20,7 +20,7 @@
                     <td><a href="/apps/{{ version.application.id }}/versions/{{ version.id }}/files/{{ file.id }}/download?token={{ tokenDownload }}" title="">{{ file.title }}</a></td>
                     <td align="right">
                         <a class="btn btn-sm btn-primary" href="/apps/{{ version.application.id }}/versions/{{ version.id }}/files/{{ file.id }}/download?token={{ tokenDownload }}" title=""><i class="glyphicon glyphicon-download-alt"></i>&nbsp;Download</a>
-                        <button class="btn btn-sm btn-danger" type="button" click-once="Removing..." ng-click="destroyApp(file)"><i class="glyphicon glyphicon-trash"></i>&nbsp;Remove</button>
+                        <button class="btn btn-sm btn-danger" type="button" click-once="Removing..." ng-click="destroyFile(version.application, version, file)"><i class="glyphicon glyphicon-trash"></i>&nbsp;Remove</button>
                     </td>
                 </tr>
                 </tbody>

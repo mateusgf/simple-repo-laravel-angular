@@ -58,17 +58,29 @@ return [
             'prefix'   => '',
         ],
 
+//        'mysql' => [
+//            'driver'    => 'mysql',
+//            'host'      => env('DB_HOST', 'localhost'),
+//            'database'  => env('DB_DATABASE', 'mateus'),
+//            'username'  => env('DB_USERNAME', 'forge'),
+//            'password'  => env('DB_PASSWORD', 'IStitE7GUfND0mF2vrST'),
+//            'charset'   => 'utf8',
+//            'collation' => 'utf8_unicode_ci',
+//            'prefix'    => '',
+//            'strict'    => false,
+//        ],
         'mysql' => [
             'driver'    => 'mysql',
-            'host'      => env('DB_HOST', 'localhost'),
-            'database'  => env('DB_DATABASE', 'mateus'),
-            'username'  => env('DB_USERNAME', 'forge'),
-            'password'  => env('DB_PASSWORD', 'IStitE7GUfND0mF2vrST'),
+            'host'      => 'localhost',
+            'database'  => 'mateus',
+            'username'  => 'forge',
+            'password'  => 'IStitE7GUfND0mF2vrST',
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
             'strict'    => false,
         ],
+
 
         'pgsql' => [
             'driver'   => 'pgsql',

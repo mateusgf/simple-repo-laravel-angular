@@ -16,9 +16,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        if (App::environment() === 'production') {
-            exit('Wow! Stop it!\n');
-        }
+//        if (App::environment() === 'production') {
+//            exit('Wow! Stop it!\n');
+//        }
 
         Model::unguard();
 

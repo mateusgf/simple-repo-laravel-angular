@@ -146,7 +146,7 @@ return [
 
         'LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider',
         'LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider',
-        'Vinelab\Http\HttpServiceProvider'
+        //'Vinelab\Http\HttpServiceProvider'
     ],
 
     /*
